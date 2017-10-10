@@ -1,0 +1,25 @@
+{
+    "name": "calderawp/ghost-runner",
+    "description": "Ghost Inspector Client as a WordPress Plugin",
+    "type": "wordpress-plugin",
+    "license": "GPLv2+",
+    "authors": [
+        {
+            "name": "Josh Pollock",
+            "email": "Josh@JoshPress.net"
+        }
+    ],
+    "minimum-stability": "dev",
+
+    "require": {
+        "rmccue/requests": ">=1.0",
+        "pimple/pimple": "^3.2"
+    },
+    "autoload": {
+        "psr-0": {"Requests": "library/"},
+	  "psr-4": {
+		"calderawp\\ghost\\": "src"
+	  }
+    }
+
+}
