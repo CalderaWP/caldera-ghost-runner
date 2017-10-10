@@ -10,7 +10,7 @@ define( 'CGR_VER', '0.1.0' );
 
 add_action( 'init', function(){
 	include_once  __DIR__ . '/vendor/autoload.php';
-	if( defined( 'CFCORE_VER') ){
+	if( defined( 'CFCORE_VER' ) ){
 		calderaGhostRunner();
 	}else{
 
@@ -27,6 +27,7 @@ function calderaGhostRunner(){
 	static  $calderaGhostInspector;
 
 	if( ! is_object( $calderaGhostInspector ) ){
+		include_once  __DIR__ . '/vendor/autoload.php';
 		$calderaGhostInspector = new Container();
 		/**
 		 * Runs when main instance of container is initialized
