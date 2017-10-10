@@ -252,7 +252,7 @@ add_action( 'calderaGhostRunner.init',
 					$nameAttr = $branchIdentifier . '-val';
 					if( isset( $_GET[ $nameAttr ] ) && $testNonce( $branchIdentifier )  ){
 						update_option( $branchIdentifier, trim( strip_tags( $_GET[ $nameAttr ] ) ) );
-						if ( 1 === 2 && defined( 'CFCORE_BASENAME' ) ) {
+						if ( defined( 'CFCORE_BASENAME' ) ) {
 							$plugin = new calderawp\ghost\Plugins\Plugin( get_option( $branchIdentifier )  );
 							$plugin->update(CFCORE_BASENAME );
 						}
