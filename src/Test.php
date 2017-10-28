@@ -3,7 +3,7 @@
 
 namespace calderawp\ghost;
 
-
+use \calderawp\ghost\Entities\Test as Entity;
 /**
  * Class Test
  *
@@ -22,29 +22,15 @@ class Test {
 
 	const ACTION = 'runTest';
 
-	/** @var string  */
-	protected $pageSlug;
-	/** @var string  */
-	protected $branch;
-	/** @var string  */
-	protected $name;
-	/** @var string  */
-	protected $release;
-	/** @var string  */
-	protected $baseline;
-	/** @var string  */
-	protected $ghostinspectorid;
 
-	protected $importData;
+	/**
+	 * @var Entity
+	 */
+	protected  $entity;
 
-	public function __construct( $ghostinspectorid, $name, $release, $baseline, $branch = '' )
+	public function __construct( Entity $entity  )
 	{
-		$this->ghostinspectorid = $ghostinspectorid;
-		$this->name = $name;
-		$this->pageSlug = sanitize_title_with_dashes( $name );
-		$this->release = $release;
-		$this->baseline = $baseline;
-		$this->branch = $branch;
+		$this->entity = $entity;
 	}
 
 	/**
@@ -63,6 +49,11 @@ class Test {
 			$immediate
 		);
 		return $result;
+	}
+
+	public function __get( $name )
+	{
+		return $this->entity->$name;
 	}
 
 	/**

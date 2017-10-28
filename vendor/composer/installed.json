@@ -152,5 +152,40 @@
             "container",
             "dependency injection"
         ]
+    },
+    {
+        "name": "calderawp/object",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/CalderaWP/objects.git",
+            "reference": "0c25abc956b1b97c7d8a281841825daf6afa5c72"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/CalderaWP/objects/zipball/0c25abc956b1b97c7d8a281841825daf6afa5c72",
+            "reference": "0c25abc956b1b97c7d8a281841825daf6afa5c72",
+            "shasum": ""
+        },
+        "time": "2017-01-08 22:09:37",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "calderawp\\object\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPLv2+"
+        ],
+        "authors": [
+            {
+                "name": "Josh Pollock",
+                "email": "Josh@calderawp.com"
+            }
+        ],
+        "description": "Utility abstract objects"
     }
 ]

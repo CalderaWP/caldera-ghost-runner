@@ -2,6 +2,7 @@
 
 
 namespace calderawp\ghost;
+use calderawp\ghost\Entities\Test;
 
 
 /**
@@ -33,12 +34,8 @@ class Factories {
 			/** @var \stdClass $test */
 			foreach ( $data->rows as $test ) {
 				$container->addTest(
-					new Test(
-						$test->ghostinspectorid,
-						$test->name,
-						$test->release,
-						isset( $test->baseline ) ? $test->baseline : '',
-						isset( $test->branch ) ? $test->branch : ''
+					new \calderawp\ghost\Test(
+						self::testEntity( $test )
 					)
 				);
 			}
@@ -64,6 +61,17 @@ class Factories {
 
 		return null;
 
+	}
+
+	/**
+	 * Create a new Test entity from stdClass object returned form API
+	 *
+	 * @param \stdClass $object
+	 *
+	 * @return Test
+	 */
+	public static function testEntity( \stdClass $object ){
+		return new Test( $object );
 	}
 
 	/**

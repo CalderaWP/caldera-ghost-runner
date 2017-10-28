@@ -2,6 +2,7 @@
 
 
 namespace calderawp\ghost;
+use calderawp\ghost\Entities\Test;
 
 
 /**
@@ -34,8 +35,9 @@ class Import {
 		$this->deletePages();
 		$contentPattern = "[caldera_form id=\"%s\"] \n\n %s \n\n <a href=\"%s\">Git Issue %s</a>";
 
+		/** @var \stdClass $test */
 		foreach ( $this->tests as $test ){
-			$this->addTest( $test, $contentPattern );
+			$this->addTest( Factories::testEntity( $test ), $contentPattern );
 		}
 
 	}
@@ -73,13 +75,19 @@ class Import {
 	 * @param $test
 	 * @param $contentPattern
 	 */
-	protected function addTest( $test, $contentPattern )
+	protected function addTest( Test $test, $contentPattern )
 	{
 		$linkPattern = '<div class="ghost-runner-import-report">%s<a href="%s">Form</a><a href="%s">Page</a>';
 		$config = json_decode( $test->config, true );
+		if( ! $config ){
+			return;
+		}
 
 		$form = \Caldera_Forms_Forms::create_form( $config );
 		if ( is_array( $form ) && isset( $form[ 'ID' ] ) ) {
+			if( ! isset( $test->description ) ){
+				$test->description = '';
+			}
 			$content = sprintf( $contentPattern, esc_attr( $form[ 'ID' ] ), esc_html( $test->description ), esc_url( 'https://github.com/calderawp/caldera-forms/issues/' . $test->gitissue ), esc_html( $test->gitissue ) );
 
 			$id = wp_insert_post( array(

@@ -4,9 +4,42 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6f2775d6b6f9d04504ae7734e7268759",
-    "content-hash": "ca6f24b8e16f0f61760dd6bad8c1df80",
+    "hash": "007ec70e8e8cfb5525a8951a125d32fc",
+    "content-hash": "bc51ba80f5b8a2d610f500c5aba2b69c",
     "packages": [
+        {
+            "name": "calderawp/object",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CalderaWP/objects.git",
+                "reference": "0c25abc956b1b97c7d8a281841825daf6afa5c72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CalderaWP/objects/zipball/0c25abc956b1b97c7d8a281841825daf6afa5c72",
+                "reference": "0c25abc956b1b97c7d8a281841825daf6afa5c72",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "calderawp\\object\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPLv2+"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Pollock",
+                    "email": "Josh@calderawp.com"
+                }
+            ],
+            "description": "Utility abstract objects",
+            "time": "2017-01-08 22:09:37"
+        },
         {
             "name": "pimple/pimple",
             "version": "dev-master",
