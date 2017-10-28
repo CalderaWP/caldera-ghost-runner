@@ -155,22 +155,22 @@
     },
     {
         "name": "calderawp/object",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/CalderaWP/objects.git",
-            "reference": "0c25abc956b1b97c7d8a281841825daf6afa5c72"
+            "reference": "9c7c0355eddebd45f9640b81f1845cbc28873afc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/CalderaWP/objects/zipball/0c25abc956b1b97c7d8a281841825daf6afa5c72",
-            "reference": "0c25abc956b1b97c7d8a281841825daf6afa5c72",
+            "url": "https://api.github.com/repos/CalderaWP/objects/zipball/9c7c0355eddebd45f9640b81f1845cbc28873afc",
+            "reference": "9c7c0355eddebd45f9640b81f1845cbc28873afc",
             "shasum": ""
         },
-        "time": "2017-01-08 22:09:37",
+        "time": "2017-10-28 01:54:56",
         "type": "library",
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "calderawp\\object\\": "src/"

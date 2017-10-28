@@ -13,7 +13,7 @@
     "require": {
         "rmccue/requests": ">=1.0",
         "pimple/pimple": "^3.2",
-        "calderawp/object": "^1.0"
+        "calderawp/object": "*"
     },
     "autoload": {
         "psr-0": {"Requests": "library/"},

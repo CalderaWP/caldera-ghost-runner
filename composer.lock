@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "007ec70e8e8cfb5525a8951a125d32fc",
-    "content-hash": "bc51ba80f5b8a2d610f500c5aba2b69c",
+    "hash": "9e1b20c986f5570dd0932dda0a3bce68",
+    "content-hash": "4a52e1fcc973495587a26d6e09ebfc69",
     "packages": [
         {
             "name": "calderawp/object",
-            "version": "1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CalderaWP/objects.git",
-                "reference": "0c25abc956b1b97c7d8a281841825daf6afa5c72"
+                "reference": "9c7c0355eddebd45f9640b81f1845cbc28873afc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CalderaWP/objects/zipball/0c25abc956b1b97c7d8a281841825daf6afa5c72",
-                "reference": "0c25abc956b1b97c7d8a281841825daf6afa5c72",
+                "url": "https://api.github.com/repos/CalderaWP/objects/zipball/9c7c0355eddebd45f9640b81f1845cbc28873afc",
+                "reference": "9c7c0355eddebd45f9640b81f1845cbc28873afc",
                 "shasum": ""
             },
             "type": "library",
@@ -38,7 +38,7 @@
                 }
             ],
             "description": "Utility abstract objects",
-            "time": "2017-01-08 22:09:37"
+            "time": "2017-10-28 01:54:56"
         },
         {
             "name": "pimple/pimple",
