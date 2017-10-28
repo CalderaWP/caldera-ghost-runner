@@ -33,7 +33,7 @@ class Import {
 	{
 		$this->deleteForms();
 		$this->deletePages();
-		$contentPattern = "[caldera_form id=\"%s\"] \n\n %s \n\n <a href=\"%s\">Git Issue %s</a>";
+		$contentPattern = "[caldera_form id=\"%s\"] \n\n %s \n\n <a href=\"%s\">Git Issue %s</a> - <a href=\"%s\">Form Editor</a>";
 
 		/** @var \stdClass $test */
 		foreach ( $this->tests as $test ){
@@ -77,7 +77,7 @@ class Import {
 	 */
 	protected function addTest( Test $test, $contentPattern )
 	{
-		$linkPattern = '<div class="ghost-runner-import-report">%s<a href="%s">Form</a><a href="%s">Page</a>';
+		$linkPattern = '<div class="ghost-runner-import-report">%s - <a href="%s">Form</a> - <a href="%s">Page</a>';
 		$config = json_decode( $test->config, true );
 		if( ! $config ){
 			return;
@@ -86,7 +86,15 @@ class Import {
 		$form = \Caldera_Forms_Forms::create_form( $config );
 		if ( is_array( $form ) && isset( $form[ 'ID' ] ) ) {
 
-			$content = sprintf( $contentPattern, esc_attr( $form[ 'ID' ] ), esc_html( $test->description ), esc_url( 'https://github.com/calderawp/caldera-forms/issues/' . $test->gitissue ), esc_html( $test->gitissue ) );
+			$editUrl = calderaGhostRunnerFormUrl( $form[ 'ID' ] );
+			$content = sprintf(
+				$contentPattern,
+				esc_attr( $form[ 'ID' ] ),
+				esc_html( $test->description ),
+				esc_url( 'https://github.com/calderawp/caldera-forms/issues/' . $test->gitissue ),
+				esc_html( $test->gitissue ),
+				esc_url( $editUrl )
+			);
 
 			$id = wp_insert_post( array(
 				'post_title'   => $test->name,
@@ -102,9 +110,10 @@ class Import {
 				$post = get_post( $id );
 
 				//@TODO Remove this echo
-				printf( $linkPattern, esc_html( $test->name ), esc_url( calderaGhostRunnerFormUrl( $form[ 'ID' ] ) ), esc_url( get_permalink( $post ) ) );
+				printf( $linkPattern, esc_html( $test->name ), esc_url( $editUrl ), esc_url( get_permalink( $post ) ) );
 			}
 
 		}
 	}
+
 }
