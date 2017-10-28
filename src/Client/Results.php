@@ -37,7 +37,7 @@ class Results extends Base{
 			$results = array(
 				'incomplete' => false,
 				'passing' => $body->data->passing,
-				'videoUrl' => $body->data->video->url,
+				'videoUrl' =>  $body->data->videoUrl,
 				'formUrl' => $body->data->startUrl,
 				'testUrl' => isset( $body->data->test->_id ) ? Factories::testUrl(  $body->data->test->_id  ): ''
 			);

@@ -33,4 +33,10 @@ class Test extends stdValidate {
 		'xtestreason'      => '',
 		'helpscout'        => 0,
 	];
+
+
+	public function pageSlug()
+	{
+		return sanitize_title_with_dashes( $this->name );
+	}
 }

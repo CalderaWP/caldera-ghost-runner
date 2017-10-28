@@ -31,9 +31,10 @@ class Tests extends Base{
 
 		$body = $this->requestGet( $rUrl );
 
-		return is_object( $body ) && isset( $body->data, $body->data->_id ) ? $body->data->_id : false;
+		return $this->returnId( $body );
 
 	}
+
 
 
 

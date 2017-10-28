@@ -108,4 +108,14 @@ abstract class Base {
 		return $body;
 	}
 
+	/**
+	 * Return ID of request body
+	 * @param object|mixed $body
+	 *
+	 * @return bool|string
+	 */
+	protected function returnId( $body )
+	{
+		return is_object( $body ) && isset( $body->data, $body->data->_id ) ? $body->data->_id : false;
+	}
 }

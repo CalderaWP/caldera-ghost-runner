@@ -42,10 +42,19 @@ class Test {
 	 * @return bool
 	 */
 	public function runOn( $siteUrl, $immediate = false ){
+
 		$client = calderaGhostRunner()->getTestsClient();
 		$result = $client->runTest(
 			$this->ghostinspectorid,
-			$this->getUrl( $siteUrl ),
+			$this->getUrl(
+				/**
+				 * Filter URL for site to run test on
+				 *
+				 * @param string $siteUrl URL (home_url()) for site to run tests on.
+				 * @param \calderawp\ghost\Entities\Test $entity Test
+				 */
+				apply_filters( 'calderaGhostRunner.testRunOn.url', $siteUrl, $this->entity )
+			),
 			$immediate
 		);
 		return $result;
@@ -100,6 +109,6 @@ class Test {
 	 */
 	public function getUrl( $siteUrl )
 	{
-		return trailingslashit( $siteUrl ) . $this->pageSlug;
+		return trailingslashit( $siteUrl ) . $this->entity->pageSlug();
 	}
 }

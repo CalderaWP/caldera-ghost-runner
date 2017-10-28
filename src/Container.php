@@ -48,7 +48,7 @@ class Container extends \Pimple\Container {
 	 * Add a test to the collection
 	 *
 	 * @param Test $test
-	 *
+	 *$siteUrl
 	 * @return $this
 	 */
 	public function addTest( Test $test )
