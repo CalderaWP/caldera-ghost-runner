@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9e1b20c986f5570dd0932dda0a3bce68",
     "content-hash": "4a52e1fcc973495587a26d6e09ebfc69",
     "packages": [
         {
@@ -38,7 +37,7 @@
                 }
             ],
             "description": "Utility abstract objects",
-            "time": "2017-10-28 01:54:56"
+            "time": "2017-10-28T01:54:56+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -88,7 +87,7 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2017-08-23 11:42:00"
+            "time": "2017-08-23T11:42:00+00:00"
         },
         {
             "name": "psr/container",
@@ -137,7 +136,7 @@
                 "container-interop",
                 "psr"
             ],
-            "time": "2017-06-28 15:35:32"
+            "time": "2017-06-28T15:35:32+00:00"
         },
         {
             "name": "rmccue/requests",
@@ -186,7 +185,7 @@
                 "iri",
                 "sockets"
             ],
-            "time": "2016-10-13 00:11:37"
+            "time": "2016-10-13T00:11:37+00:00"
         }
     ],
     "packages-dev": [],

@@ -6,7 +6,7 @@
     "authors": [
         {
             "name": "Josh Pollock",
-            "email": "Josh@JoshPress.net"
+            "email": "Josh@CalderaWP.com"
         }
     ],
     "minimum-stability": "dev",
@@ -17,9 +17,9 @@
     },
     "autoload": {
         "psr-0": {"Requests": "library/"},
-	  "psr-4": {
-		"calderawp\\ghost\\": "src"
-	  }
+        "psr-4": {
+        "calderawp\\ghost\\": "src"
+        }
     }
 
 }
