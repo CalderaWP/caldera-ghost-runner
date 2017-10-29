@@ -107,6 +107,10 @@ class Container extends \Pimple\Container {
 	 */
 	public function getTests()
 	{
+		if( ! $this->offsetExists(  self::TestsCollectionOffset ) ){
+			self::offsetSet( self::TestsCollectionOffset, array() );
+		}
+
 		return $this->offsetGet( self::TestsCollectionOffset );
 	}
 
