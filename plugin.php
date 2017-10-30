@@ -311,7 +311,7 @@ function calderaGhostRunnerFormUrl( $formId ){
 function calderaGhostRunnerEnv( $var, $default = null ){
 	$value = getenv( $var );
 	if( is_null( $value ) && defined( strtoupper( $var ) ) ){
-		$value = constant( $var );
+		$value = constant( strtoupper( $var ) );
 	}
 
 	if( is_null( $value ) ){
