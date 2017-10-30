@@ -319,6 +319,9 @@ function calderaGhostRunnerEnv( $var, $default = null ){
 		$value = $default;
 	}
 
-	return $value;
+	/**
+	 * Change value of env var
+	 */
+	return apply_filters( 'calderaGhostRunner.env.'. $var, $value );
 
 }
