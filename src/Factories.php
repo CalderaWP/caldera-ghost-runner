@@ -22,7 +22,6 @@ class Factories {
 	public static function testsFromGoogleSheet( $docId, Container $container = null )
 	{
 
-
 		$data = self::getDataFromGoogle( $docId, 1, md5( __CLASS__ . __METHOD__ . $docId ) );
 
 		if ( is_null( $data ) || is_null( $container ) ) {
@@ -139,7 +138,8 @@ class Factories {
 	 */
 	protected static function getDataFromGoogle( $docId, $sheet, $key )
 	{
-		$cached = get_transient( CGR_VER . $key );
+		$key = CGR_VER . $key;
+		$cached = get_transient( $key );
 		if ( ! empty( $cached ) && is_string( $cached ) && is_object( json_decode( $cached ) ) ) {
 			$data = json_decode( $cached );
 

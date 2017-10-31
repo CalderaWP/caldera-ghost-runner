@@ -4,7 +4,6 @@
  Version: 0.1.0
  */
 use \calderawp\ghost\Container as Container;
-
 define( 'CGR_VER', '0.1.0' );
 
 
