@@ -78,11 +78,11 @@ class Import {
 	protected function addTest( Test $test, $contentPattern )
 	{
 		$linkPattern = '<div class="ghost-runner-import-report">%s - <a href="%s">Form</a> - <a href="%s">Page</a>';
-		$config = json_decode( $test->config, true );
+		$config = $test->getConfig();
 		if( ! $config ){
 			return;
 		}
-
+        $config = (array) $config;
 		$form = \Caldera_Forms_Forms::create_form( $config );
 		if ( is_array( $form ) && isset( $form[ 'ID' ] ) ) {
 

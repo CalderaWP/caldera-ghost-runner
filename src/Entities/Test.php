@@ -39,4 +39,20 @@ class Test extends stdValidate {
 	{
 		return sanitize_title_with_dashes( $this->name );
 	}
+
+    /**
+     * @return array
+     */
+	public function getConfig()
+    {
+        if( is_string( $this->decoratedObj->config ) ){
+            $this->decoratedObj->config = json_decode( $this->decoratedObj->config, true );
+        }
+
+        if( is_object( $this->decoratedObj->config ) ){
+            $this->decoratedObj->config = (array) $this->decoratedObj->config;
+        }
+
+        return $this->decoratedObj->config;
+    }
 }
