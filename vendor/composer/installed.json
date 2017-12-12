@@ -1,54 +1,38 @@
 [
     {
-        "name": "rmccue/requests",
+        "name": "calderawp/object",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
-            "url": "https://github.com/rmccue/Requests.git",
-            "reference": "87932f52ffad70504d93f04f15690cf16a089546"
+            "url": "https://github.com/CalderaWP/objects.git",
+            "reference": "9c7c0355eddebd45f9640b81f1845cbc28873afc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
-            "reference": "87932f52ffad70504d93f04f15690cf16a089546",
+            "url": "https://api.github.com/repos/CalderaWP/objects/zipball/9c7c0355eddebd45f9640b81f1845cbc28873afc",
+            "reference": "9c7c0355eddebd45f9640b81f1845cbc28873afc",
             "shasum": ""
         },
-        "require": {
-            "php": ">=5.2"
-        },
-        "require-dev": {
-            "requests/test-server": "dev-master"
-        },
-        "time": "2016-10-13T00:11:37+00:00",
+        "time": "2017-10-28T01:54:56+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
-            "psr-0": {
-                "Requests": "library/"
+            "psr-4": {
+                "calderawp\\object\\": "src/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "ISC"
+            "GPLv2+"
         ],
         "authors": [
             {
-                "name": "Ryan McCue",
-                "homepage": "http://ryanmccue.info"
+                "name": "Josh Pollock",
+                "email": "Josh@calderawp.com"
             }
         ],
-        "description": "A HTTP library written in PHP, for human beings.",
-        "homepage": "http://github.com/rmccue/Requests",
-        "keywords": [
-            "curl",
-            "fsockopen",
-            "http",
-            "idna",
-            "ipv6",
-            "iri",
-            "sockets"
-        ]
+        "description": "Utility abstract objects"
     },
     {
         "name": "psr/container",
@@ -154,38 +138,54 @@
         ]
     },
     {
-        "name": "calderawp/object",
+        "name": "rmccue/requests",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
-            "url": "https://github.com/CalderaWP/objects.git",
-            "reference": "9c7c0355eddebd45f9640b81f1845cbc28873afc"
+            "url": "https://github.com/rmccue/Requests.git",
+            "reference": "87932f52ffad70504d93f04f15690cf16a089546"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/CalderaWP/objects/zipball/9c7c0355eddebd45f9640b81f1845cbc28873afc",
-            "reference": "9c7c0355eddebd45f9640b81f1845cbc28873afc",
+            "url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
+            "reference": "87932f52ffad70504d93f04f15690cf16a089546",
             "shasum": ""
         },
-        "time": "2017-10-28T01:54:56+00:00",
+        "require": {
+            "php": ">=5.2"
+        },
+        "require-dev": {
+            "requests/test-server": "dev-master"
+        },
+        "time": "2016-10-13T00:11:37+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
-            "psr-4": {
-                "calderawp\\object\\": "src/"
+            "psr-0": {
+                "Requests": "library/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "GPLv2+"
+            "ISC"
         ],
         "authors": [
             {
-                "name": "Josh Pollock",
-                "email": "Josh@calderawp.com"
+                "name": "Ryan McCue",
+                "homepage": "http://ryanmccue.info"
             }
         ],
-        "description": "Utility abstract objects"
+        "description": "A HTTP library written in PHP, for human beings.",
+        "homepage": "http://github.com/rmccue/Requests",
+        "keywords": [
+            "curl",
+            "fsockopen",
+            "http",
+            "idna",
+            "ipv6",
+            "iri",
+            "sockets"
+        ]
     }
 ]

@@ -148,7 +148,7 @@ class Factories {
 			$r = \Requests::get( 'http://gsx2json.com/api?id=' . $docId . '&sheet=' . $sheet );
 			if ( 200 == $r->status_code ) {
 				$data = json_decode( $r->body );
-				set_transient( $key, $r->body, 599 );
+				set_transient( $key, $data, 599 );
 
 				return $data;
 			} else {
