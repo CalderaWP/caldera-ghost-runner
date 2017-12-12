@@ -138,12 +138,10 @@ class Factories {
 	 */
 	protected static function getDataFromGoogle( $docId, $sheet, $key )
 	{
-		$key = CGR_VER . $key;
+		$key = CGR_VER .'1'. $key;
 		$cached = get_transient( $key );
-		if ( ! empty( $cached ) && is_string( $cached ) && is_object( json_decode( $cached ) ) ) {
-			$data = json_decode( $cached );
-
-			return $data;
+		if ( ! empty( $cached ) && is_object( $cached )  ) {
+			return $cached;
 		} else {
 			$r = \Requests::get( 'http://gsx2json.com/api?id=' . $docId . '&sheet=' . $sheet );
 			if ( 200 == $r->status_code ) {
