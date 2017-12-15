@@ -144,12 +144,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rmccue/Requests.git",
-                "reference": "87932f52ffad70504d93f04f15690cf16a089546"
+                "reference": "4055bc412f128bb298735d5e1b0189eff41f1340"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
-                "reference": "87932f52ffad70504d93f04f15690cf16a089546",
+                "url": "https://api.github.com/repos/rmccue/Requests/zipball/4055bc412f128bb298735d5e1b0189eff41f1340",
+                "reference": "4055bc412f128bb298735d5e1b0189eff41f1340",
                 "shasum": ""
             },
             "require": {
@@ -185,7 +185,7 @@
                 "iri",
                 "sockets"
             ],
-            "time": "2016-10-13T00:11:37+00:00"
+            "time": "2017-12-13T02:37:47+00:00"
         }
     ],
     "packages-dev": [],

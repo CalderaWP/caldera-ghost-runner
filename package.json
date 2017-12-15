@@ -1,0 +1,26 @@
+{
+  "name": "caldera-ghost-runner",
+  "version": "0.3.1",
+  "description": "Utility plugin for Caldera Forms development.",
+  "main": "weback.config.js",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config weback.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CalderaWP/caldera-ghost-runner.git"
+  },
+  "author": "Josh Pollock <josh@calderawp.com>",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/CalderaWP/caldera-ghost-runner/issues"
+  },
+  "homepage": "https://github.com/CalderaWP/caldera-ghost-runner#readme"
+}

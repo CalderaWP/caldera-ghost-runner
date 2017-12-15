@@ -54,8 +54,8 @@ class Factories {
 	 */
 	public static function testData( $docId  ){
 		$data = self::getDataFromGoogle( $docId, 4, md5( __CLASS__ . __METHOD__ . $docId ) );
-		if( ! empty( $data ) && isset( $data->rows ) ){
-			return $data->rows;
+		if( ! empty( $data )  ){
+			return $data;
 		}
 
 		return null;
@@ -138,21 +138,22 @@ class Factories {
 	 */
 	protected static function getDataFromGoogle( $docId, $sheet, $key )
 	{
-		$key = CGR_VER .'1'. $key;
+		$key = CGR_VER .'2'. $key;
 		$cached = get_transient( $key );
-		if ( ! empty( $cached ) && is_object( $cached )  ) {
+		if ( ! empty( $cached ) && is_array( $cached )  ) {
 			return $cached;
 		} else {
-			$r = \Requests::get( 'http://gsx2json.com/api?id=' . $docId . '&sheet=' . $sheet );
+			$r = \Requests::get( 'https://sfzdzyril8.execute-api.us-east-1.amazonaws.com/dev/list' );
 			if ( 200 == $r->status_code ) {
 				$data = json_decode( $r->body );
-				set_transient( $key, $data, 599 );
+				if( ! isset( $data[0]) ){
+				    return null;
+                }
+				set_transient( $key, $data[0], 599 );
 
-				return $data;
+				return $data[0];
 			} else {
-				$data = null;
-
-				return $data;
+				return null;
 			}
 
 		}

@@ -43,8 +43,11 @@ class Test extends stdValidate {
     /**
      * @return array
      */
-	public function getConfig()
+	public function getFormConfig()
     {
+        if( ! isset( $this->decoratedObj->config ) ){
+            return [];
+        }
         if( is_string( $this->decoratedObj->config ) ){
             $this->decoratedObj->config = json_decode( $this->decoratedObj->config, true );
         }

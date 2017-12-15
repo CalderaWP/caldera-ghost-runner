@@ -1,10 +1,10 @@
 <?php
 /**
  Plugin Name: Ghost Inspector Test Runner
- Version: 0.2.0
+ Version: 0.3.1
  */
 use \calderawp\ghost\Container as Container;
-define( 'CGR_VER', '0.2.0' );
+define( 'CGR_VER', '0.3.1' );
 
 
 add_action( 'init', function(){
@@ -224,7 +224,9 @@ add_action( 'calderaGhostRunner.init',
 						if ( $testNonce( $importAction ) ) {
 							\calderawp\ghost\Factories::import();
 							echo '<div>IMPORTED:)</div>';
-						}else{
+                            printf( '<a href="%s">Import Forms Again</a>', esc_url( $importUrl ) );
+
+                        }else{
 							echo '<h3>Import Tests</h3>';
 							echo '<strong>This will delete all pages and all forms</strong>';
 							printf( '<a href="%s">Import Forms</a>', esc_url( $importUrl ) );

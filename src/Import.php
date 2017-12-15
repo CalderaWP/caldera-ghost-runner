@@ -78,7 +78,7 @@ class Import {
 	protected function addTest( Test $test, $contentPattern )
 	{
 		$linkPattern = '<div class="ghost-runner-import-report">%s - <a href="%s">Form</a> - <a href="%s">Page</a>';
-		$config = $test->getConfig();
+		$config = $test->getFormConfig();
 		if( ! $config ){
 			return;
 		}
