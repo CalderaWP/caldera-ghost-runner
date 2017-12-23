@@ -32,7 +32,13 @@ This is mainly desgined for internal use, but if you wish to learn or borrow fro
 * Set the branch in the branch setting (this doesn't do much right now, will allow for plugin updates automattiacally later)
 
 ### Use Plugin
-Read docs.
+* Go to admin screen
+* Click import forms.
+* Ignore everything else.
+
+#### WP CLI Command
+Import forms and put on pages (deletes all pages and forms first)
+`wp cgr import`
 
 ## Copyright, License, Etc.
 Copyright 2017 Josh Pollock for CalderaWP LLC. Licensed under terms of the GNU GPL v2 or later.

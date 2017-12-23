@@ -41,6 +41,20 @@ function calderaGhostRunner(){
 }
 
 /**
+ * WP CLI Command
+ */
+if ( class_exists( 'WP_CLI' ) ) {
+    $importCommand = function() {
+        \calderawp\ghost\Factories::import();
+        WP_CLI::success( "The test forms may or may not have imported" );
+    };
+    WP_CLI::add_command( 'cgr import', $importCommand );
+}
+
+
+
+
+/**
  * Run all tests with on a specific sits
  *
  * @param string $siteUrl Optional. URL to run on. Default is result of site_url();
