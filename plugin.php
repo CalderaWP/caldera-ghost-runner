@@ -200,16 +200,16 @@ add_action( 'calderaGhostRunner.init',
 
                     echo '<h3>Forms</h3>';
                     $query = new WP_Query(
-                        [
+                        array(
                             'post_type' => 'page',
                             'posts_per_page' => '999',
-                            'meta_query' => [
+                            'meta_query' => array(
                                 'key' => 'GCR',
                                 'value' => 'yes',
                                 'compare' => '='
-                            ]
+                            )
 
-                        ]
+                        )
                     );
 
                     $linkPattern = '<div class="ghost-runner-test">%s - <a href="%s">Form</a> - <a href="%s">Page</a> - <a href="%s">Git Issue</a>';
