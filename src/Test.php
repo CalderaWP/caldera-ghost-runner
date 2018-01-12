@@ -33,32 +33,6 @@ class Test {
 		$this->entity = $entity;
 	}
 
-	/**
-	 * Run test with a specific URL
-	 *
-	 * @param $siteUrl
-	 * @param bool $immediate
-	 *
-	 * @return bool
-	 */
-	public function runOn( $siteUrl, $immediate = false ){
-
-		$client = calderaGhostRunner()->getTestsClient();
-		$result = $client->runTest(
-			$this->ghostinspectorid,
-			$this->getUrl(
-				/**
-				 * Filter URL for site to run test on
-				 *
-				 * @param string $siteUrl URL (home_url()) for site to run tests on.
-				 * @param \calderawp\ghost\Entities\Test $entity Test
-				 */
-				apply_filters( 'calderaGhostRunner.testRunOn.url', $siteUrl, $this->entity )
-			),
-			$immediate
-		);
-		return $result;
-	}
 
 	public function __get( $name )
 	{
@@ -83,21 +57,6 @@ class Test {
 	public function getId()
 	{
 		return $this->ghostinspectorid;
-	}
-
-	/**
-	 * Get link for running this test with
-	 *
-	 * @return string
-	 */
-	public function runLink()
-	{
-		return calderaGhostRunner()->adminUrl(
-			array(
-				'id' => $this->ghostinspectorid,
-			),
-			self::ACTION
-		);
 	}
 
 	/**
