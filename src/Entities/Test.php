@@ -12,7 +12,7 @@ use calderawp\object\stdValidate;
 class Test extends stdValidate {
 
 
-	protected  $properties = [
+	protected  $properties = array(
 		'config',
 		'description',
 		'gitissue',
@@ -21,10 +21,10 @@ class Test extends stdValidate {
 		'testsuite',
 		'xtestreason',
 		'helpscout',
-	];
+    );
 
-	protected $defaults = [
-		'config'           => [ ],
+	protected $defaults = array(
+		'config'           => array(),
 		'description'      => 'No description',
 		'gitissue'         => 0,
 		'ghostinspectorid' => 0,
@@ -32,7 +32,7 @@ class Test extends stdValidate {
 		'testsuite'        => 0,
 		'xtestreason'      => '',
 		'helpscout'        => 0,
-	];
+    );
 
 
 	public function pageSlug()
