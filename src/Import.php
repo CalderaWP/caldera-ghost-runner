@@ -104,13 +104,16 @@ class Import {
 			) );
 
 			if ( is_numeric( $id ) ) {
+			    add_post_meta( $id, 'CGR', 'yes', true );
 				add_post_meta( $id, 'CGR_gitIssue', $test->gitissue, true );
 				add_post_meta( $id, 'CGR_release', $test->release, true );
+				add_post_meta( $id, 'CGR_formId',  $form[ 'ID' ], true );
 				add_post_meta( $id, 'CGR_ghostInspectorID', $test->ghostinspectorid, true );
 				$post = get_post( $id );
 
 				//@TODO Remove this echo
-				printf( $linkPattern, esc_html( $test->name ), esc_url( $editUrl ), esc_url( get_permalink( $post ) ) );
+				$string = sprintf( $linkPattern, esc_html( $test->name ), esc_url( $editUrl ), esc_url( get_permalink( $post ) ) );
+				echo $string;
 			}
 
 		}

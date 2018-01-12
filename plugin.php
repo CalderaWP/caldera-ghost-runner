@@ -149,142 +149,96 @@ add_action( 'calderaGhostRunner.init',
 				'Ghost Runner',
 				'manage_options',
 				$container::SLUG,
-				function() use( $container ){
-					$apiUrl = $action = add_query_arg(
-						array(
-							'key' => $container->getLocalApiKey()
-						),
-						rest_url( 'ghost-runner/v1/tests/all' )
-					);
+				function() use( $container ) {
+                    $apiUrl = $action = add_query_arg(
+                        array(
+                            'key' => $container->getLocalApiKey()
+                        ),
+                        rest_url('ghost-runner/v1/tests/all')
+                    );
 
-					$importAction = 'importTests';
+                    $importAction = 'importTests';
 
-					$allRunAction = 'allRun';
+                    $allRunAction = 'allRun';
 
-					$action = $container->adminUrl( array(), $allRunAction );
+                    $action = $container->adminUrl(array(), $allRunAction);
 
-					$testRunAction = \calderawp\ghost\Test::ACTION;
-
-					$branchIdentifier = 'setBranch';
-
-					/**
-					 * Check if nonce is passed and valid by action.
-					 *
-					 * This is actually the route essentially -- each part has an "action" that action is used as a GET var whose value is nonce. This function checks if that "action" is set and the nonce is valid.
-					 *
-					 * @param string $action Nonce actio
-					 *
-					 * @return bool
-					 */
-					$testNonce = function ( $action ){
-						return isset( $_GET[ $action ] ) && wp_verify_nonce( $_GET[ $action ], $action );
-					};
-
-					$importUrl = $container->adminUrl( array('hi' => 'Roy' ), $importAction );
-
-					$tests = $container->getTests();
-
-					wp_enqueue_script( $container::SLUG, plugin_dir_url( __FILE__ ) . 'assets/admin.js', array( 'jquery' ) );
-
-					//Show results of all of the tests runnin
-					if( isset( $_GET[ 'rootUrl' ] ) && $testNonce( $allRunAction ) ){
-
-						$key = md5( CGR_VER . $allRunAction . $action );
-						if( ! is_array( $results = get_transient( $key ) ) ){
-							$results = $container
-								->getRunner()
-								->setRootUrl(
-									esc_url_raw( $_GET[ 'rootUrl' ] )
-								)
-								->toArray();
-							set_transient( $key, $results, 599 );
-						}
+                    $testRunAction = \calderawp\ghost\Test::ACTION;
 
 
-						printf( '<div id="ghost-runner">Results!</div><script> window.CGRResults = %s;</script>', wp_json_encode( $results ) );
 
-						wp_localize_script( $container::SLUG, 'CGRResults', $results  );
-					}
-					//run single test
-					elseif ( $testNonce( $testRunAction ) ){
-						$id = ( isset( $_GET[ 'id' ] ) && 0 < absint( $_GET[ 'id' ] ) ) ? $_GET[ 'id' ] : 0;
-						if( 0 < $id ){
-							$test = $container->getTest( $id );
-							if( $test ){
-								echo "Results For Test $id";
-								$rId =  $container
-									->getRunner()
-									->setRootUrl( site_url() )
-									->test( $id );
-								$resluts = $container->getResultsClient()->result( $rId );
-								var_dump( $rId );
-								var_dump( $resluts );
-							}
-						}
+                    /**
+                     * Check if nonce is passed and valid by action.
+                     *
+                     * This is actually the route essentially -- each part has an "action" that action is used as a GET var whose value is nonce. This function checks if that "action" is set and the nonce is valid.
+                     *
+                     * @param string $action Nonce actio
+                     *
+                     * @return bool
+                     */
+                    $testNonce = function ($action) {
+                        return isset($_GET[$action]) && wp_verify_nonce($_GET[$action], $action);
+                    };
 
-					}
-					//Show the all runner and importer
-					else{
-						echo '<h3>Run All Tests On A Specific URL</h3>';
-
-						printf(
-							'<form id="ghost-runner-form" action="%s"><label>URL For Sites</label><input name="rootUrl" type="text" />%s</form>',
-							esc_url_raw( $action ),
-							wp_nonce_field( $allRunAction, $allRunAction, false, false ) . get_submit_button( 'Run All Tests' ) . '<input type="hidden" name="page" value="' . $container::SLUG . '" />'
-
-						);
+                    $importUrl = $container->adminUrl(array('hi' => 'Roy'), $importAction);
 
 
-						if ( $testNonce( $importAction ) ) {
-							\calderawp\ghost\Factories::import();
-							echo '<div>IMPORTED:)</div>';
+
+
+                    if( $testNonce($importAction) ){
+                        if ( $testNonce( $importAction ) ) {
+                            \calderawp\ghost\Factories::import();
+                            echo '<div>IMPORTED:)</div>';
                             printf( '<a href="%s">Import Forms Again</a>', esc_url( $importUrl ) );
+                        }
+                    }else{
+                        echo '<h3>Import Tests</h3>';
+                        echo '<strong>This will delete all pages and all forms</strong>';
+                        printf('<a href="%s">Import Forms</a>', esc_url($importUrl));
 
-                        }else{
-							echo '<h3>Import Tests</h3>';
-							echo '<strong>This will delete all pages and all forms</strong>';
-							printf( '<a href="%s">Import Forms</a>', esc_url( $importUrl ) );
-						}
-					}
+                    }
 
-					//list all tests
-					$linkPattern = '<div class="ghost-runner-test-list">%s :<a href="%s">Page</a> - <a href="%s">Run</a>';
-					echo '<h3>Run A Single Test Using This Site</h3>';
-					/** @var \calderawp\ghost\Test $test */
-					foreach ( $tests as $test ){
-						printf( $linkPattern,
-							esc_html( $test->getName() ),
-							esc_url(
-								get_permalink(
-									\calderawp\ghost\Factories::pageByGhostId( $test->getId()
-									)
-								)
-							),
-							esc_url( $test->runLink() )
-						);
-					}
+                    echo '<h3>Forms</h3>';
+                    $query = new WP_Query(
+                        [
+                            'post_type' => 'page',
+                            'posts_per_page' => '999',
+                            'meta_query' => [
+                                'key' => 'GCR',
+                                'value' => 'yes',
+                                'compare' => '='
+                            ]
 
-					//Set branch
-					$nameAttr = $branchIdentifier . '-val';
-					if( isset( $_GET[ $nameAttr ] ) && $testNonce( $branchIdentifier )  ){
-						update_option( $branchIdentifier, trim( strip_tags( $_GET[ $nameAttr ] ) ) );
-						if ( defined( 'CFCORE_BASENAME' ) ) {
-							$plugin = new calderawp\ghost\Plugins\Plugin( get_option( $branchIdentifier )  );
-							$plugin->update(CFCORE_BASENAME );
-						}
-					}
-					echo  'Set Git Branch';
-					$action = $container->adminUrl( array(), $branchIdentifier );
+                        ]
+                    );
 
-					printf( '<form action="%s" style="border:1px solid black;" id="ghost-runner-change-git-branch"><label>Branch</label><input type="text" name="%s" value="%s" />%s</form> ',
-						esc_url_raw( $action ),
-						esc_attr( $nameAttr ),
-						esc_attr( get_option( $branchIdentifier ) ),
-						get_submit_button( 'Set branch' ) . wp_nonce_field( $branchIdentifier, $branchIdentifier, false, false ) . '<input type="hidden" value="' . $container::SLUG . '" name="page" />'
+                    $linkPattern = '<div class="ghost-runner-test">%s - <a href="%s">Form</a> - <a href="%s">Page</a> - <a href="%s">Git Issue</a>';
 
-					);
 
-				}
+                    if( $query->have_posts() ){
+                        foreach ( $query->posts as $post ){
+                            $editLink = add_query_arg(
+                                'edit',
+                                get_post_meta( $post->ID, 'CGR_formId', true ),
+                                admin_url( 'admin.php?page=caldera-forms' )
+                            );
+
+                            $gitLink = 'https://github.com/calderawp/caldera-forms/' . get_post_meta( $post->ID, 'CGR_gitIssue', true );
+                            printf(
+                                $linkPattern,
+                                esc_html( $post->post_title ),
+                                esc_url( $editLink ),
+                                esc_url( get_permalink( $post ) ),
+                                esc_url( $gitLink )
+                            );
+                        }
+                    }
+
+
+
+
+
+                }
 			);
 		});
 

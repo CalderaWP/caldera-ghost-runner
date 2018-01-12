@@ -143,13 +143,13 @@ class Factories {
 		if ( ! empty( $cached ) && is_array( $cached )  ) {
 			return $cached;
 		} else {
-			$r = \Requests::get( 'https://sfzdzyril8.execute-api.us-east-1.amazonaws.com/dev/list' );
+			$r = \Requests::get( 'https://yzoy1wu6tg.execute-api.us-east-1.amazonaws.com/dev/list' );
 			if ( 200 == $r->status_code ) {
 				$data = json_decode( $r->body );
 				if( ! isset( $data[0]) ){
 				    return null;
                 }
-				set_transient( $key, $data[0], 599 );
+				set_transient( $key, $data[0], HOUR_IN_SECONDS );
 
 				return $data[0];
 			} else {

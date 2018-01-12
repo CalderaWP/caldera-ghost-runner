@@ -65,19 +65,6 @@ class Container extends \Pimple\Container {
 		return $this;
 	}
 
-	/**
-	 * Get test runner
-	 *
-	 * @return Runner
-	 */
-	public function getRunner()
-	{
-		if( ! $this->offsetExists( self::RunnerOffset ) ){
-			$this->offsetSet( self::RunnerOffset, new Runner( $this ) );
-		}
-
-		return $this->offsetGet( self::RunnerOffset );
-	}
 
 
 
@@ -146,38 +133,5 @@ class Container extends \Pimple\Container {
 		return null;
 	}
 
-	/**
-	 * Get API client for Ghost Inspector tests
-	 *
-	 * @return Tests
-	 */
-	public function getTestsClient(){
-		if( ! $this->offsetExists( self::TestsClientOffset ) ){
 
-			$this->offsetSet(
-				self::TestsClientOffset,
-				new Tests( $this->getApiKey() )
-			);
-		}
-
-		return $this->offsetGet( self::TestsClientOffset );
-	}
-
-	/**
-	 * Get API client for Ghost Inspector test results
-	 *
-	 * @return Results
-	 */
-	public function getResultsClient()
-	{
-		if( ! $this->offsetExists( self::ResultsClientOffset ) ){
-
-			$this->offsetSet(
-				self::ResultsClientOffset,
-				new Results( $this->getApiKey() )
-			);
-		}
-
-		return $this->offsetGet( self::ResultsClientOffset );
-	}
 }
