@@ -143,7 +143,7 @@ class Factories {
 		if ( ! empty( $cached ) && is_array( $cached )  ) {
 			return $cached;
 		} else {
-			$r = \Requests::get( 'https://yzoy1wu6tg.execute-api.us-east-1.amazonaws.com/dev/list' );
+			$r = \Requests::get( 'https://yzoy1wu6tg.execute-api.us-east-1.amazonaws.com/dev/list', array(), array( 'verify' => false ) );
 			if ( 200 == $r->status_code ) {
 				$data = json_decode( $r->body );
 				if( ! isset( $data[0]) ){
