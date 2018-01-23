@@ -1,10 +1,10 @@
 <?php
 /**
  Plugin Name: Ghost Inspector Test Runner
- Version: 0.3.1
+ Version: 0.3.2
  */
 use \calderawp\ghost\Container as Container;
-define( 'CGR_VER', '0.3.1' );
+define( 'CGR_VER', '0.3.2' );
 
 
 add_action( 'init', function(){
@@ -54,8 +54,8 @@ if ( class_exists( 'WP_CLI' ) ) {
 /**
  * WP CLI Command for running tests
  */
-if ( class_exists( 'WP_CLI' ) ) {
-    $runCommand = function() {
+if (class_exists('WP_CLI')) {
+    $runCommand = function () {
         $query = new WP_Query(
             array(
                 'post_type' => 'page',
@@ -67,22 +67,70 @@ if ( class_exists( 'WP_CLI' ) ) {
                 )
             )
         );
-        if( $query->have_posts() ){
-            $apiKey = isset( $_ENV, $_ENV[ 'CGRKEY'] ) ? $_ENV ['CGRKEY' ] : CGRKEY;
+        if ($query->have_posts()) {
+            $apiKey = isset($_ENV, $_ENV['CGRKEY']) ? $_ENV ['CGRKEY'] : CGRKEY;
             $pattern = 'https://api.ghostinspector.com/v1/tests/%s/execute/?apiKey=%s&startUrl=%s&hi=roy';
-            foreach ( $query->get_posts() as $post ){
-                $url = sprintf( $pattern,
-                    urlencode( get_post_meta( $post->ID, 'CGR_ghostInspectorID', true ) ),
-                    urlencode( $apiKey ),
-                    urlencode( get_permalink( $post ) )
+            $requests = array();
+            foreach ($query->get_posts() as $post) {
+                $url = sprintf($pattern,
+                    urlencode(get_post_meta($post->ID, 'CGR_ghostInspectorID', true)),
+                    urlencode($apiKey),
+                    urlencode(get_permalink($post))
                 );
-                WP_CLI::line( 'Start Url:' . get_permalink( $post ) );
-                $r = wp_remote_get( $url );
-                WP_CLI::line( 'Status: ' . wp_remote_retrieve_response_code( $r ) );
+
+                $requests[] = array(
+                    'url' => $url,
+                    'type' => 'GET'
+                );
+
+                WP_CLI::line('Start Url:' . get_permalink($post));
+
+            }
+        }else{
+            return WP_CLI::error( 'No test found', true );
+        }
+
+        $results = array(
+            'fails' => array(),
+            'tests' => array()
+        );
+        $responses = Requests::request_multiple($requests);
+        /** @var Requests_Response $response */
+        foreach ($responses as $response) {
+            $data = [];
+            if (is_a($response, 'Requests_Response')) {
+                $data = json_decode($response->body);
+                $results[ 'tests' ][ $data->data->_id ] = array(
+                    'passed' => 'SUCCESS' === $data->code,
+                    'id' => $data->data->_id,
+                    'name'=> $data->data->name,
+                    'startUrl' => $data->data->startUrl,
+                    'uuid' => $data->data->uuid,
+                );
+
+                if( 'SUCCESS' !== $data->code ){
+                    $results[ 'fails' ][] = $data->data->_id;
+                }
+
             }
         }
+
+        WP_CLI\Utils\format_items( 'table', $results [ 'tests' ], array(
+            'passed',
+            'id',
+            'name',
+            'startUrl',
+            'uuid'
+        ) );
+
+
+        if( ! empty( $results[ 'fails' ] ) ){
+            return WP_CLI::error( 'Not all tests passed.', true );
+        }else{
+            return WP_CLI::success( 'All of the tests appeared to have passed' );
+        }
     };
-    WP_CLI::add_command( 'cgr run', $runCommand );
+    WP_CLI::add_command('cgr run', $runCommand);
 }
 
 
