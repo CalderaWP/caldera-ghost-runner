@@ -36,9 +36,11 @@ This is mainly desgined for internal use, but if you wish to learn or borrow fro
 * Click import forms.
 * Ignore everything else.
 
-#### WP CLI Command
-Import forms and put on pages (deletes all pages and forms first)
+#### WP CLI Commands
+##### Import forms and put on pages (deletes all pages and forms first)
 `wp cgr import`
+##### Run all tests against this site
+`wp cgr run`
 
 ## Copyright, License, Etc.
 Copyright 2017 Josh Pollock for CalderaWP LLC. Licensed under terms of the GNU GPL v2 or later.
