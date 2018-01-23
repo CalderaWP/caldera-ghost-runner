@@ -1,10 +1,10 @@
 <?php
 /**
  Plugin Name: Ghost Inspector Test Runner
- Version: 0.3.1
+ Version: 0.3.2
  */
 use \calderawp\ghost\Container as Container;
-define( 'CGR_VER', '0.3.1' );
+define( 'CGR_VER', '0.3.2' );
 
 
 add_action( 'init', function(){
@@ -41,7 +41,7 @@ function calderaGhostRunner(){
 }
 
 /**
- * WP CLI Command
+ * WP CLI Command for import of forms
  */
 if ( class_exists( 'WP_CLI' ) ) {
     $importCommand = function() {
@@ -51,6 +51,38 @@ if ( class_exists( 'WP_CLI' ) ) {
     WP_CLI::add_command( 'cgr import', $importCommand );
 }
 
+/**
+ * WP CLI Command for running tests
+ */
+if ( class_exists( 'WP_CLI' ) ) {
+    $runCommand = function() {
+        $query = new WP_Query(
+            array(
+                'post_type' => 'page',
+                'posts_per_page' => '999',
+                'meta_query' => array(
+                    'key' => 'GCR',
+                    'value' => 'yes',
+                    'compare' => '='
+                )
+            )
+        );
+        if( $query->have_posts() ){
+            $pattern = 'https://api.ghostinspector.com/v1/tests/%s/execute/?apiKey=%s&startUrl=%s&hi=roy';
+            foreach ( $query->get_posts() as $post ){
+                $url = sprintf( $pattern,
+                    urlencode( get_post_meta( $post->ID, 'CGR_ghostInspectorID', true ) ),
+                    urlencode( CGRKEY ),
+                    urlencode( get_permalink( $post ) )
+                );
+                WP_CLI::line( 'Start Url:' . get_permalink( $post ) );
+                $r = wp_remote_get( $url );
+                WP_CLI::line( 'Status: ' . wp_remote_retrieve_response_code( $r ) );
+            }
+        }
+    };
+    WP_CLI::add_command( 'cgr run', $runCommand );
+}
 
 
 
@@ -208,7 +240,6 @@ add_action( 'calderaGhostRunner.init',
                                 'value' => 'yes',
                                 'compare' => '='
                             )
-
                         )
                     );
 
