@@ -1,10 +1,10 @@
 <?php
 /**
  Plugin Name: Ghost Inspector Test Runner
- Version: 0.3.2
+ Version: 0.3.1
  */
 use \calderawp\ghost\Container as Container;
-define( 'CGR_VER', '0.3.2' );
+define( 'CGR_VER', '0.3.1' );
 
 
 add_action( 'init', function(){
@@ -68,11 +68,12 @@ if ( class_exists( 'WP_CLI' ) ) {
             )
         );
         if( $query->have_posts() ){
+            $apiKey = isset( $_ENV, $_ENV[ 'CGRKEY'] ) ? $_ENV ['CGRKEY' ] : CGRKEY;
             $pattern = 'https://api.ghostinspector.com/v1/tests/%s/execute/?apiKey=%s&startUrl=%s&hi=roy';
             foreach ( $query->get_posts() as $post ){
                 $url = sprintf( $pattern,
                     urlencode( get_post_meta( $post->ID, 'CGR_ghostInspectorID', true ) ),
-                    urlencode( CGRKEY ),
+                    urlencode( $apiKey ),
                     urlencode( get_permalink( $post ) )
                 );
                 WP_CLI::line( 'Start Url:' . get_permalink( $post ) );
