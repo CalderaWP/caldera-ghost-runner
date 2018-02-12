@@ -100,28 +100,23 @@ if (class_exists('WP_CLI')) {
             $data = [];
             if (is_a($response, 'Requests_Response')) {
                 $data = json_decode($response->body);
-                $results[ 'tests' ][ $data->data->_id ] = array(
+                $data = array(
                     'passed' => 'SUCCESS' === $data->code,
                     'id' => $data->data->_id,
+                    'info' => "https://app.ghostinspector.com/results/". $data->data->_id,
                     'name'=> $data->data->name,
                     'startUrl' => $data->data->startUrl,
                     'uuid' => $data->data->uuid,
                 );
 
+                $results[ 'tests' ][ $data->data->_id ] = $data;
+
                 if( 'SUCCESS' !== $data->code ){
-                    $results[ 'fails' ][] = $data->data->_id;
+                    WP_CLI::error_multi_line( 'Failed test: '. $data[ 'name' ] . 'See:' . $data[ 'info' ] );
                 }
 
             }
         }
-
-        WP_CLI\Utils\format_items( 'table', $results [ 'tests' ], array(
-            'passed',
-            'id',
-            'name',
-            'startUrl',
-            'uuid'
-        ) );
 
 
         if( ! empty( $results[ 'fails' ] ) ){
