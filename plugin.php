@@ -1,10 +1,10 @@
 <?php
 /**
  Plugin Name: Ghost Inspector Test Runner
- Version: 0.3.2
+ Version: 0.3.3
  */
 use \calderawp\ghost\Container as Container;
-define( 'CGR_VER', '0.3.2' );
+define( 'CGR_VER', '0.3.3' );
 
 
 add_action( 'init', function(){
