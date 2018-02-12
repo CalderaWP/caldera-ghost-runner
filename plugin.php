@@ -94,7 +94,12 @@ if (class_exists('WP_CLI')) {
             'fails' => array(),
             'tests' => array()
         );
-        $responses = Requests::request_multiple($requests);
+        $responses = Requests::request_multiple($requests, [
+            'timeout' => 120,
+            //Certs could be an issue from Travis, don't verify
+            'verify' => false
+        ]);
+
         /** @var Requests_Response $response */
         foreach ($responses as $response) {
             $data = [];
