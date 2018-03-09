@@ -4,7 +4,7 @@
  Version: 0.3.3
  */
 use \calderawp\ghost\Container as Container;
-define( 'CGR_VER', '0.3.3' );
+define( 'CGR_VER', '0.4.0' );
 
 
 add_action( 'init', function(){
@@ -56,78 +56,13 @@ if ( class_exists( 'WP_CLI' ) ) {
  */
 if (class_exists('WP_CLI')) {
     $runCommand = function () {
-        $query = new WP_Query(
-            array(
-                'post_type' => 'page',
-                'posts_per_page' => '999',
-                'meta_query' => array(
-                    'key' => 'GCR',
-                    'value' => 'yes',
-                    'compare' => '='
-                )
-            )
-        );
-        if ($query->have_posts()) {
-            $apiKey = isset($_ENV, $_ENV['CGRKEY']) ? $_ENV ['CGRKEY'] : CGRKEY;
-            $pattern = 'https://api.ghostinspector.com/v1/tests/%s/execute/?apiKey=%s&startUrl=%s&hi=roy';
-            $requests = array();
-            foreach ($query->get_posts() as $post) {
-                $url = sprintf($pattern,
-                    urlencode(get_post_meta($post->ID, 'CGR_ghostInspectorID', true)),
-                    urlencode($apiKey),
-                    urlencode(get_permalink($post))
-                );
-
-                $requests[] = array(
-                    'url' => $url,
-                    'type' => 'GET'
-                );
-
-                WP_CLI::line('Start Url:' . get_permalink($post));
-
-            }
-        }else{
-            return WP_CLI::error( 'No test found', true );
-        }
-
-        $results = array(
-            'fails' => array(),
-            'tests' => array()
-        );
-        $responses = Requests::request_multiple($requests, [
-            'timeout' => 120,
-            //Certs could be an issue from Travis, don't verify
-            'verify' => false
-        ]);
-
-        /** @var Requests_Response $response */
-        foreach ($responses as $response) {
-            $data = [];
-            if (is_a($response, 'Requests_Response')) {
-                $data = json_decode($response->body);
-                $data = array(
-                    'passed' => 'SUCCESS' === $data->code,
-                    'id' => $data->data->_id,
-                    'info' => "https://app.ghostinspector.com/results/". $data->data->_id,
-                    'name'=> $data->data->name,
-                    'startUrl' => $data->data->startUrl,
-                    'uuid' => $data->data->uuid,
-                );
-
-                $results[ 'tests' ][ $data->data->_id ] = $data;
-
-                if( 'SUCCESS' !== $data->code ){
-                    WP_CLI::error_multi_line( 'Failed test: '. $data[ 'name' ] . 'See:' . $data[ 'info' ] );
-                }
-
-            }
-        }
-
-
+        WP_CLI::line('Making requests' );
+        $runner = new \calderawp\ghost\Run();
+        $results = $runner->makeRequests();
         if( ! empty( $results[ 'fails' ] ) ){
-            return WP_CLI::error( 'Not all tests passed.', true );
+            return WP_CLI::error( 'Some tests may not run.', true );
         }else{
-            return WP_CLI::success( 'All of the tests appeared to have passed' );
+            return WP_CLI::success( 'All of the requests to <em>Start</em> the tests worked.' );
         }
     };
     WP_CLI::add_command('cgr run', $runCommand);
@@ -135,20 +70,7 @@ if (class_exists('WP_CLI')) {
 
 
 
-/**
- * Run all tests with on a specific sits
- *
- * @param string $siteUrl Optional. URL to run on. Default is result of site_url();
- *
- * @return array
- */
-function calderaGhostRunnerRun( $siteUrl = null ){
-	$siteUrl = is_string( $siteUrl ) && filter_var( $siteUrl, FILTER_VALIDATE_URL ) ? $siteUrl : site_url();
-	return calderaGhostRunner()
-		->getRunner()
-		->setRootUrl( esc_url_raw( $siteUrl ) )
-		->allTests();
-}
+
 
 /**
  * Set API key from ENV var or constant CGRKEY
@@ -181,38 +103,29 @@ add_action( 'calderaGhostRunner.init',
 			function () use( $container )
 			{
 				$permissions  = function ( \WP_REST_Request $r ) use ( $container ) {
-					$key = $r->get_param( 'key' );
-					return hash_equals( $key, $container->getLocalApiKey() );
+					return hash_equals( $r->get_param( 'key'  ), $container->getLocalApiKey() );
 				};
 
-				register_rest_route( 'ghost-runner/v1', 'tests/all', array(
+				register_rest_route( 'ghost-runner/v1', 'tests/', array(
 					'methods'     => 'GET',
 					'permission_callback' => $permissions,
 					'callback'    => function ( \WP_REST_Request $r ) use ( $container ) {
-						return rest_ensure_response(
-							$container
-								->getRunner()
-								->setRootUrl(
-									$r->get_param( esc_url_raw( 'rootUrl' ) )
-								)
-								->toApiResponse()
-						);
+					    $runner = new \calderawp\ghost\Run( $r->get_param( 'notify' ) );
+						return rest_ensure_response($runner->getUrls());
+
 					},
+                    'args' => [
+                        'key' => [
+                            'type' => 'string',
+                            'required' => true,
+                        ],
+                        'notify' => [
+                            'type' => 'string',
+                            'default' => ''
+                        ]
+                     ]
 				) );
 
-				register_rest_route( 'ghost-runner/v1', 'tests/result', array(
-					'methods'     => 'GET',
-					'permission_callback' => $permissions,
-					'callback'    => function ( \WP_REST_Request $r ) use ( $container ) {
-						return rest_ensure_response(
-							$container
-								->getResultsClient()
-								->result(
-									$r->get_param( strip_tags( stripslashes( 'id' ) ) )
-								)
-						);
-					},
-				) );
 			}
 		);
 	},

@@ -41,29 +41,13 @@ class Container extends \Pimple\Container {
 	 */
 	public function getApiKey()
 	{
+        if( ! $this->get( self::ApiKeyOffset )  ){
+            return isset($_ENV, $_ENV['CGRKEY']) ? $_ENV ['CGRKEY'] : CGRKEY;
+        }
 		return $this->offsetGet( self::ApiKeyOffset );
 	}
 
-	/**
-	 * Add a test to the collection
-	 *
-	 * @param Test $test
-	 *$siteUrl
-	 * @return $this
-	 */
-	public function addTest( Test $test )
-	{
 
-		if( ! $this->offsetExists(  self::TestsCollectionOffset ) ){
-			$tests = array();
-		}else{
-			$tests = $this->offsetGet( self::TestsCollectionOffset );
-		}
-
-		$tests[ $test->getId() ] = $test;
-		$this->offsetSet( self::TestsCollectionOffset, $tests );
-		return $this;
-	}
 
 
 
@@ -89,20 +73,12 @@ class Container extends \Pimple\Container {
 		), admin_url( 'admin.php' ) );
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getTests()
-	{
-		if( ! $this->offsetExists(  self::TestsCollectionOffset ) ){
-			self::offsetSet( self::TestsCollectionOffset, array() );
-		}
-
-		return $this->offsetGet( self::TestsCollectionOffset );
-	}
 
 	public function getLocalApiKey()
 	{
+	    if( ! $this->get( self::LocalApiKeyOffset )  ){
+	        return isset($_ENV, $_ENV['CGRLOCALAPIKEY']) ? $_ENV ['CGRLOCALAPIKEY'] : CGRLOCALAPIKEY;
+        }
 		return $this->get( self::LocalApiKeyOffset );
 	}
 
