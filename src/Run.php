@@ -86,7 +86,7 @@ class Run
         foreach ($this->setQuery()->get_posts() as $post) {
             $url = $this->url($post);
             if ($url) {
-                $this->urls[$post->ID] = $url;
+                $this->urls[] = $url
                 $requests[] = array(
                     'url' => $url,
                     'type' => 'GET'

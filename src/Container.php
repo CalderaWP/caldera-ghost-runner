@@ -42,15 +42,23 @@ class Container extends \Pimple\Container {
 	public function getApiKey()
 	{
         if( ! $this->get( self::ApiKeyOffset )  ){
-            return isset($_ENV, $_ENV['CGRKEY']) ? $_ENV ['CGRKEY'] : CGRKEY;
+            return get_option( self::ApiKeyOffset, isset($_ENV, $_ENV['CGRKEY']) ? $_ENV ['CGRKEY'] : CGRKEY );
         }
 		return $this->offsetGet( self::ApiKeyOffset );
 	}
 
-
-
-
-
+    /**
+     * Get API key for local endpoints
+     *
+     * @return mixed|null|string
+     */
+    public function getLocalApiKey()
+    {
+        if( ! $this->get( self::LocalApiKeyOffset )  ){
+            return get_option( self::LocalApiKeyOffset, isset($_ENV, $_ENV['CGRLOCALAPIKEY']) ? $_ENV ['CGRLOCALAPIKEY'] : CGRLOCALAPIKEY );
+        }
+        return $this->get( self::LocalApiKeyOffset );
+    }
 
 	/**
 	 * Link to admin page.
@@ -74,13 +82,7 @@ class Container extends \Pimple\Container {
 	}
 
 
-	public function getLocalApiKey()
-	{
-	    if( ! $this->get( self::LocalApiKeyOffset )  ){
-	        return isset($_ENV, $_ENV['CGRLOCALAPIKEY']) ? $_ENV ['CGRLOCALAPIKEY'] : CGRLOCALAPIKEY;
-        }
-		return $this->get( self::LocalApiKeyOffset );
-	}
+
 
 	/**
 	 * Get item by identifier form container, with fallback to environment var or constant (transformed to right form)
