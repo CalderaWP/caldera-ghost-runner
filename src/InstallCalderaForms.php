@@ -32,7 +32,6 @@ class InstallCalderaForms
     {
         $dashbaord = Pusher::getInstance()->make('Pusher\Dashboard');
         $result = $dashbaord->execute( $this->command );
-        $x = 1;
         return $result;
     }
 }
