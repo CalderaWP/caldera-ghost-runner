@@ -2,14 +2,15 @@
 
 
 namespace calderawp\ghost;
-use calderawp\ghost\Entities\Test;
 
+use calderawp\ghost\Entities\Test;
 
 /**
  * Class Import
  * @package calderawp\ghost
  */
-class Import {
+class Import
+{
 
 	/**
 	 * @var array
@@ -21,7 +22,7 @@ class Import {
 	 *
 	 * @param array $tests Should be provided by sheet 4
 	 */
-	public function __construct( $tests )
+	public function __construct($tests)
 	{
 		$this->tests = $tests;
 	}
@@ -36,37 +37,35 @@ class Import {
 		$contentPattern = "[caldera_form id=\"%s\"] \n\n %s \n\n <a href=\"%s\">Git Issue %s</a> - <a href=\"%s\">Form Editor</a>";
 
 		/** @var \stdClass $test */
-		foreach ( $this->tests as $test ){
-			$this->addTest( Factories::testEntity( $test ), $contentPattern );
+		foreach ($this->tests as $test) {
+			$this->addTest(Factories::testEntity($test), $contentPattern);
 		}
-
 	}
 
 	/**
 	 * Delete all forms
 	 */
-	public function deleteForms(){
+	public function deleteForms()
+	{
 		$forms = \Caldera_Forms_Forms::get_forms();
-		if( ! empty( $forms ) ){
-			foreach ( $forms as $form ){
-				\Caldera_Forms_Forms::delete_form( $form );
+		if (! empty($forms)) {
+			foreach ($forms as $form) {
+				\Caldera_Forms_Forms::delete_form($form);
 			}
-
 		}
-
 	}
 
 	/**
 	 * Delete all pages
 	 */
-	public function deletePages(){
-		foreach ( get_posts( array(
+	public function deletePages()
+	{
+		foreach (get_posts(array(
 			'post_type' => 'page' ,
 			'post_status' => 'any'
-		) ) as $page ){
-			wp_delete_post( $page->ID, true );
+		)) as $page) {
+			wp_delete_post($page->ID, true);
 		}
-
 	}
 
 	/**
@@ -75,48 +74,45 @@ class Import {
 	 * @param $test
 	 * @param $contentPattern
 	 */
-	protected function addTest( Test $test, $contentPattern )
+	protected function addTest(Test $test, $contentPattern)
 	{
 		$linkPattern = '<div class="ghost-runner-import-report">%s - <a href="%s">Form</a> - <a href="%s">Page</a>';
 		$config = $test->getFormConfig();
-		if( ! $config ){
+		if (! $config) {
 			return;
 		}
-        $config = (array) $config;
-		$form = \Caldera_Forms_Forms::create_form( $config );
-		if ( is_array( $form ) && isset( $form[ 'ID' ] ) ) {
-
-			$editUrl = calderaGhostRunnerFormUrl( $form[ 'ID' ] );
+		$config = (array) $config;
+		$form = \Caldera_Forms_Forms::create_form($config);
+		if (is_array($form) && isset($form[ 'ID' ])) {
+			$editUrl = calderaGhostRunnerFormUrl($form[ 'ID' ]);
 			$content = sprintf(
 				$contentPattern,
-				esc_attr( $form[ 'ID' ] ),
-				esc_html( $test->description ),
-				esc_url( 'https://github.com/calderawp/caldera-forms/issues/' . $test->gitissue ),
-				esc_html( $test->gitissue ),
-				esc_url( $editUrl )
+				esc_attr($form[ 'ID' ]),
+				esc_html($test->description),
+				esc_url('https://github.com/calderawp/caldera-forms/issues/' . $test->gitissue),
+				esc_html($test->gitissue),
+				esc_url($editUrl)
 			);
 
-			$id = wp_insert_post( array(
+			$id = wp_insert_post(array(
 				'post_title'   => $test->name,
 				'post_type'    => 'page',
 				'post_content' => $content,
 				'post_status'  => 'publish'
-			) );
+			));
 
-			if ( is_numeric( $id ) ) {
-			    add_post_meta( $id, 'CGR', 'yes', true );
-				add_post_meta( $id, 'CGR_gitIssue', $test->gitissue, true );
-				add_post_meta( $id, 'CGR_release', $test->release, true );
-				add_post_meta( $id, 'CGR_formId',  $form[ 'ID' ], true );
-				add_post_meta( $id, 'CGR_ghostInspectorID', $test->ghostinspectorid, true );
-				$post = get_post( $id );
+			if (is_numeric($id)) {
+				add_post_meta($id, 'CGR', 'yes', true);
+				add_post_meta($id, 'CGR_gitIssue', $test->gitissue, true);
+				add_post_meta($id, 'CGR_release', $test->release, true);
+				add_post_meta($id, 'CGR_formId', $form[ 'ID' ], true);
+				add_post_meta($id, 'CGR_ghostInspectorID', $test->ghostinspectorid, true);
+				$post = get_post($id);
 
 				//@TODO Remove this echo
-				$string = sprintf( $linkPattern, esc_html( $test->name ), esc_url( $editUrl ), esc_url( get_permalink( $post ) ) );
+				$string = sprintf($linkPattern, esc_html($test->name), esc_url($editUrl), esc_url(get_permalink($post)));
 				echo $string;
 			}
-
 		}
 	}
-
 }

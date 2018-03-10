@@ -4,6 +4,7 @@
 namespace calderawp\ghost;
 
 use \calderawp\ghost\Entities\Test as Entity;
+
 /**
  * Class Test
  *
@@ -17,7 +18,8 @@ release: "r1"
  *
  * @package CalderaWP\GhostInspector
  */
-class Test {
+class Test
+{
 
 
 	const ACTION = 'runTest';
@@ -26,15 +28,15 @@ class Test {
 	/**
 	 * @var Entity
 	 */
-	protected  $entity;
+	protected $entity;
 
-	public function __construct( Entity $entity  )
+	public function __construct(Entity $entity)
 	{
 		$this->entity = $entity;
 	}
 
 
-	public function __get( $name )
+	public function __get($name)
 	{
 		return $this->entity->$name;
 	}
@@ -66,8 +68,8 @@ class Test {
 	 *
 	 * @return string
 	 */
-	public function getUrl( $siteUrl )
+	public function getUrl($siteUrl)
 	{
-		return trailingslashit( $siteUrl ) . $this->entity->pageSlug();
+		return trailingslashit($siteUrl) . $this->entity->pageSlug();
 	}
 }

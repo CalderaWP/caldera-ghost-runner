@@ -3,12 +3,14 @@
 
 namespace calderawp\ghost;
 
-
 /**
  * Class Something
  * @package CalderaWP\GhostInspector
  */
-class Something {
+class Something
+{
 
-	public function foo(){}
+	public function foo()
+	{
+	}
 }

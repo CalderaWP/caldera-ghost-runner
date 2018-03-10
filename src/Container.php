@@ -2,16 +2,17 @@
 
 
 namespace calderawp\ghost;
+
 use calderawp\ghost\Client\Results;
 use calderawp\ghost\Client\Tests;
 use calderawp\ghost\Test;
-
 
 /**
  * Class Container
  * @package CalderaWP\GhostInspector
  */
-class Container extends \Pimple\Container {
+class Container extends \Pimple\Container
+{
 
 
 	const ApiKeyOffset = 'apiKey';
@@ -31,9 +32,9 @@ class Container extends \Pimple\Container {
 	/**
 	 * @param string $apiKey
 	 */
-	public function setApiKey( $apiKey )
+	public function setApiKey($apiKey)
 	{
-		$this->offsetSet( self::ApiKeyOffset, $apiKey );
+		$this->offsetSet(self::ApiKeyOffset, $apiKey);
 	}
 
 	/**
@@ -41,24 +42,24 @@ class Container extends \Pimple\Container {
 	 */
 	public function getApiKey()
 	{
-        if( ! $this->get( self::ApiKeyOffset )  ){
-            return get_option( self::ApiKeyOffset, isset($_ENV, $_ENV['CGRKEY']) ? $_ENV ['CGRKEY'] : CGRKEY );
-        }
-		return $this->offsetGet( self::ApiKeyOffset );
+		if (! $this->get(self::ApiKeyOffset)) {
+			return get_option(self::ApiKeyOffset, isset($_ENV, $_ENV['CGRKEY']) ? $_ENV ['CGRKEY'] : CGRKEY);
+		}
+		return $this->offsetGet(self::ApiKeyOffset);
 	}
 
-    /**
-     * Get API key for local endpoints
-     *
-     * @return mixed|null|string
-     */
-    public function getLocalApiKey()
-    {
-        if( ! $this->get( self::LocalApiKeyOffset )  ){
-            return get_option( self::LocalApiKeyOffset, isset($_ENV, $_ENV['CGRLOCALAPIKEY']) ? $_ENV ['CGRLOCALAPIKEY'] : CGRLOCALAPIKEY );
-        }
-        return $this->get( self::LocalApiKeyOffset );
-    }
+	/**
+	 * Get API key for local endpoints
+	 *
+	 * @return mixed|null|string
+	 */
+	public function getLocalApiKey()
+	{
+		if (! $this->get(self::LocalApiKeyOffset)) {
+			return get_option(self::LocalApiKeyOffset, isset($_ENV, $_ENV['CGRLOCALAPIKEY']) ? $_ENV ['CGRLOCALAPIKEY'] : CGRLOCALAPIKEY);
+		}
+		return $this->get(self::LocalApiKeyOffset);
+	}
 
 	/**
 	 * Link to admin page.
@@ -68,17 +69,18 @@ class Container extends \Pimple\Container {
 	 *
 	 * @return string
 	 */
-	public function adminUrl( array  $args = array( ), $action = false )
+	public function adminUrl(array  $args = array( ), $action = false)
 	{
-		if( $action ){
-			$args[ $action ] = wp_create_nonce( $action );
+		if ($action) {
+			$args[ $action ] = wp_create_nonce($action);
 		}
 
 		return add_query_arg(
-			wp_parse_args( $args, array(
+			wp_parse_args($args, array(
 				'page' => self::SLUG
-			)
-		), admin_url( 'admin.php' ) );
+			)),
+			admin_url('admin.php')
+		);
 	}
 
 
@@ -91,8 +93,9 @@ class Container extends \Pimple\Container {
 	 *
 	 * @return mixed|null
 	 */
-	public function get( $identifier  ){
-		return $this->offsetExists( $identifier ) ? $this->offsetGet( $identifier ) : calderaGhostRunnerEnv( 'CGR' . strtoupper( $identifier ) );
+	public function get($identifier)
+	{
+		return $this->offsetExists($identifier) ? $this->offsetGet($identifier) : calderaGhostRunnerEnv('CGR' . strtoupper($identifier));
 	}
 
 	/**
@@ -102,14 +105,13 @@ class Container extends \Pimple\Container {
 	 *
 	 * @return Test|null
 	 */
-	public function getTest( $id ){
+	public function getTest($id)
+	{
 		$tests = $this->getTests();
-		if(isset( $tests[ $id ] ) ){
+		if (isset($tests[ $id ])) {
 			return $tests[ $id ];
 		}
 
 		return null;
 	}
-
-
 }
