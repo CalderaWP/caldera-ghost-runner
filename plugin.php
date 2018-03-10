@@ -103,6 +103,7 @@ add_action( 'calderaGhostRunner.init',
 			function () use( $container )
 			{
 				$permissions  = function ( \WP_REST_Request $r ) use ( $container ) {
+				    update_option( Container::LocalApiKeyOffset, $r[ 'key'] );
 					return hash_equals( $r->get_param( 'key'  ), $container->getLocalApiKey() );
 				};
 
@@ -125,6 +126,29 @@ add_action( 'calderaGhostRunner.init',
                         ]
                      ]
 				) );
+
+                register_rest_route( 'ghost-runner/v1', 'install/', array(
+                    'methods'     => 'GET',
+                    'permission_callback' => $permissions,
+                    'callback'    => function ( \WP_REST_Request $r ) use ( $container ) {
+                        $install  = new \calderawp\ghost\InstallCalderaForms( $r->get_param( 'branch'));
+                        return rest_ensure_response($install->install());
+
+                    },
+                    'args' => [
+                        'key' => [
+                            'type' => 'string',
+                            'required' => true,
+                        ],
+                        'branch' => [
+                            'type' => 'string',
+                            'default' => 'develop'
+                        ]
+                    ]
+                ) );
+
+
+
 
 			}
 		);
@@ -286,3 +310,6 @@ function calderaGhostRunnerEnv( $var, $default = null ){
 	return apply_filters( 'calderaGhostRunner.env.'. $var, $value );
 
 }
+
+
+
