@@ -76,6 +76,8 @@ class Run
 
 	/**
 	 * Create array of api requests
+	 *
+	 * @return $this
 	 */
 	public function createRequests()
 	{
@@ -93,6 +95,7 @@ class Run
 		}
 
 		$this->requests = $requests;
+		return $this;
 	}
 
 

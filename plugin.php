@@ -111,6 +111,11 @@ add_action( 'calderaGhostRunner.init',
 					'permission_callback' => $permissions,
 					'callback'    => function ( \WP_REST_Request $r ) use ( $container ) {
 					    $runner = new \calderawp\ghost\Run( $r->get_param( 'notify' ) );
+					    if( $r->get_param( 'run' ) ){
+					    	$runner
+								->createRequests()
+								->makeRequests();
+						}
 						return rest_ensure_response($runner->getUrls());
 
 					},
@@ -122,7 +127,11 @@ add_action( 'calderaGhostRunner.init',
                         'notify' => [
                             'type' => 'string',
                             'default' => ''
-                        ]
+                        ],
+						'run' => [
+							'type' => 'boolean',
+							'default' => false
+						]
                      ]
 				) );
 
@@ -243,10 +252,7 @@ add_action( 'calderaGhostRunner.init',
                     }
 
 
-
-
-
-                }
+				}
 			);
 		});
 
