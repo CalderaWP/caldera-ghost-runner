@@ -144,6 +144,12 @@ add_action( 'calderaGhostRunner.init',
                         exit;
 
                     },
+					'args' => [
+						'key' => [
+							'type' => 'string',
+							'required' => true,
+						],
+					]
 
                 ) );
 

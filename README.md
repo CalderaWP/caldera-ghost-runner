@@ -42,5 +42,13 @@ This is mainly desgined for internal use, but if you wish to learn or borrow fro
 ##### Run all tests against this site
 `wp cgr run`
 
+
+#### REST API
+- GET wp-json/ghost-runner/v1/tests : Get URLs for requesting that Ghost Inspector run all tests on this site, optionally running them.
+* key: Should be the same as `CGRLOCALAPIKEY`. Required.
+* notify: Webhoook Url for Ghost Inspector to use. Default empty.
+* run: Trigger tests via Ghost Inspector API? Default false.
+- GET wp-json/ghost-runner/v1/import : Import test forms.
+* key: Should be the same as `CGRLOCALAPIKEY`. Required
 ## Copyright, License, Etc.
 Copyright 2017 Josh Pollock for CalderaWP LLC. Licensed under terms of the GNU GPL v2 or later.
