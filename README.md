@@ -9,12 +9,15 @@ It is designed for two types of sites:
 
 This is mainly desgined for internal use, but if you wish to learn or borrow from this -- go ahead, GPL.
 
+## Install
+`composer require calderawp/ghost-runner --dev`
+
 ## Full Documentation
-[You Must Be Space Astronaut Grade 1 (SA1) Or Higher](https://drive.google.com/open?id=0B9qEKQe8auJ5VUxFS3otTEdvbGc)
+[Requires access, ask Josh](https://drive.google.com/open?id=0B9qEKQe8auJ5VUxFS3otTEdvbGc)
 
 ## TL;DR
-###Set Some Constants Or Env Variables in wp-config
-[Sample SA1](https://drive.google.com/open?id=0B9qEKQe8auJ5OXZXSkZRamlKTjQ)
+### Set Some Constants Or Env Variables in wp-config
+[Sample](https://drive.google.com/open?id=0B9qEKQe8auJ5OXZXSkZRamlKTjQ)
 
 ```
   define( 'CGRKEY', 'Your Ghost Inspector API key' );
